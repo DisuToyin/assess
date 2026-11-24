@@ -146,6 +146,8 @@ Do not run destructive `prisma migrate reset` in production. Maintain exactly on
 3. Set the Render `CLIENT_ORIGIN` to the exact Netlify URL; set `COOKIE_SAME_SITE=none` for unrelated domains.
 4. Build and deploy. Client routes such as `/tests/…/edit` fall back to `index.html`.
 
+For manual drag-and-drop deployment, set `VITE_API_URL` in a local `client/.env` before running `npm run build -w client` from the workspace root, then upload the entire `client/dist` folder. `client/public/_redirects` is copied into `dist/_redirects` during the build so refreshing or opening a React route directly works without `netlify.toml`. Keep `_redirects` alongside `index.html` in the uploaded folder. Netlify dashboard environment variables do not modify JavaScript that was already built locally.
+
 For reliable authentication in browsers that block third-party cookies, use same-site custom domains (for example, `assess.example.com` on Netlify and `api.example.com` on Render), set `COOKIE_SAME_SITE=lax`, and update both URL variables. Cross-site cookies on unrelated `netlify.app` / `onrender.com` domains can be blocked by browser privacy settings. Keep HTTPS enabled on both services. Narrow the Netlify CSP `connect-src` to your API origin if you want a stricter deployment policy.
 
 Deployment files are supplied; no external deployment has been created by this task.
